@@ -1,0 +1,1 @@
+<p>Found <?php echo \count($data['files']); ?> files.</p>

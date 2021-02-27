@@ -1,0 +1,12 @@
+{
+    "name": "phiil/cloud-tools",
+    "autoload": {
+        "psr-4": {"Phiil\\CloudTools\\":"src/"}
+    },
+    "autoload-dev": {
+        "psr-4": {"Phiil\\CloudTools\\Tests\\":"tests/"}
+    },
+    "require": {
+        "mongodb/mongodb": "^1.8"
+    }
+}
