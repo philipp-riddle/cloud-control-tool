@@ -20,9 +20,10 @@
         
         <div class="col-sm-3 my-auto">
             <span class="navbar-text">
-                <form class="d-flex">
-                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-outline-success" type="submit">Search</button>
+                <form class="d-flex" action="index.php" method="GET">
+                    <input name="controller" type="hidden" value="search">
+                    <input name="search" class="form-control me-2" type="search" placeholder="Search" aria-label="Search"> &nbsp;&nbsp;
+                    <button class="btn btn-outline-dark" type="submit">Search</button>
                 </form>
             </span>
         </div>

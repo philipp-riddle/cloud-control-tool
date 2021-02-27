@@ -9,8 +9,7 @@ class DirectoryController extends Controller
     public function directoryDetails()
     {
         $dir = $this->getRequestParam('dir');
-
-        $files = $this->getFileRepository()->fetchAllByDirectory($dir);
+        $files = $this->getFileRepository()->fetchAllByDirectoryPrefix($dir);
 
         return $this->render('directory/details.php', [
             'allFiles' => $files,
@@ -18,7 +17,7 @@ class DirectoryController extends Controller
         ]);
     }
 
-    // METHODS TO REGISTER THE CONTROLLER
+    // METHODS TO REGISTER THE CONTROLLER PROPERLY
 
     public function getRoutes(): array
     {

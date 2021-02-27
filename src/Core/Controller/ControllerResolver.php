@@ -4,6 +4,7 @@ namespace Phiil\CloudTools\Core\Controller;
 
 use Phiil\CloudTools\Controller\DirectoryController;
 use Phiil\CloudTools\Controller\HomeController;
+use Phiil\CloudTools\Controller\SearchController;
 use Phiil\CloudTools\Core\CloudWebApp;
 use Phiil\CloudTools\Exception\ControllerMethodMissingException;
 
@@ -22,6 +23,7 @@ class ControllerResolver
     {
         $this->registerController(new DirectoryController($this));
         $this->registerController(new HomeController($this));
+        $this->registerController(new SearchController($this));
     }
 
     public function registerController(Controller $controller)

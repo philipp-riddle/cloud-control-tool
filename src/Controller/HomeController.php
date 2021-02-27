@@ -6,15 +6,6 @@ use Phiil\CloudTools\Core\Controller\Controller;
 
 class HomeController extends Controller
 {
-    public function getRoutes(): array
-    {
-        return [
-            'index' => 'home',
-        ];
-    }
-
-    // METHODS TO REGISTER THE CONTROLLER
-
     public function home()
     {
         return $this->render('home/index.html.twig', [
@@ -23,6 +14,15 @@ class HomeController extends Controller
             'totalDirectories' => $this->getFileRepository()->getTotalDirectories(),
             'totalFiles' => $this->getFileRepository()->getTotalFiles(),
         ]);
+    }
+
+    // METHODS TO REGISTER THE CONTROLLER PROPERLY
+
+    public function getRoutes(): array
+    {
+        return [
+            'index' => 'home',
+        ];
     }
 
     public function authenticate(): bool

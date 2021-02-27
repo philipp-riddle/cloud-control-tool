@@ -62,7 +62,7 @@ class FileDirectoryCrawler
         }
 
         foreach ($scanned as $file) {
-            $filePath = $directory.'/'.$file;
+            $filePath = $directory.$file;
             $entityFile = $this->repository->fetchByPath($filePath);
 
             if (null !== $entityFile) {

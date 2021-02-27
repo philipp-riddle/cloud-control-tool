@@ -19,21 +19,56 @@ class FileRepository extends Repository
        return $this->__fact($result);
     }
 
-    public function fetchAllByDirectory(string $directory)
+    public function fetchAllByDirectoryPrefix(string $directory, ?string $type = null): array
     {
+        $matchQuery = ['path' => ['$regex' => $directory]];
+
+        if (null !== $type) {
+            $matchQuery['type'] = $type;
+        }
+
         $result = $this->mongoService->getFilesCollection()->aggregate([
-            ['$match' =>
-                ['path' => ['$regex' => $directory]],
-            ],
+            ['$match' => $matchQuery],
+            ['$limit' => 100],
         ]);
 
         return $this->__factArray($result);
     }
 
+    public function fetchAllByTypesDirectoryPrefix(string $directory): array
+    {
+        $result = $this->mongoService->getFilesCollection()->aggregate([
+            ['$group' =>
+                [
+                    '_id' => '$type',
+                    'count' => ['$sum' => 1],
+                ],
+            ],
+            ['$sort' => 
+                [
+                    'count' => -1,
+                ],
+            ],
+            ['$project' =>
+                [
+                    'type' => '$_id',
+                    'count' => '$count',
+                ],
+            ],
+            ['$limit' => 10],
+        ]);
+
+        if (!$result) {
+            return 0;
+        }
+
+        return $this->mongoService->toArray($result); // only return the types
+    }
+
     /**
      * Gets all the files in the current directory (only one layer)
      */
-    public function getFilesInDirectory(string $directory)
+    public function getFilesInDirectory(string $directory): array
     {
         $result = $this->mongoService->getFilesCollection()->findOne([
             'directory' => $directory,

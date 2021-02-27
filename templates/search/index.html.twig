@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Search Results for <strong>{{ search }}</strong> ({{ files|length }})</h1>
+
+    <div class="row mb-4">
+        <div class="col-sm-12">
+            <form class="d-flex" action="index.php" method="GET">
+                <input name="controller" type="hidden" value="search">
+                <div class="row">
+                    <div class="col-sm-8">
+                        <input name="search" class="form-control" type="search" placeholder="Search" aria-label="Search" value="{{ search }}">
+                        <small class="text-muted">search query</small>
+                    </div>
+                    <div class="col-sm-3">
+                        <select name="type" class="form-control">
+                            {% for type in types %}
+                                <option value="{{ type.type }}">{{ type.type }} ({{ type.count }})</option>
+                            {% endfor %}
+                        </select>
+                        <small class="text-muted">type</small>
+                    </div>
+
+                    <div class="col-sm-1">
+                        <button class="btn btn-outline-dark" type="submit">Search</button>
+                    </div>
+                </div>
+            </form>
+            <div class="controls-bar mt-2">
+                {% if parentDirectory is not null %}
+                    <a href="{{ controller.resolver.generateUrl('search') }}&search={{ parentDirectory }}" class='btn btn-primary btn-sm'>One Level up</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <h4>Results</h4>
+    {% set totalSize = 0 %}
+
+    <table class="table table-striped">
+        {% for file in files %}
+            <tr>
+                <td>
+                    {{ file.path }}
+                    <small class="textmuted"><a href="{{ controller.resolver.generateUrl('search') }}&search={{ file.path }}">focus</a></small>
+                </td>
+                <td>{{ file.type }}</td>
+            </tr>
+            {% set totalSize = totalSize + file.size %}
+        {% endfor %}
+    </table>
+
+    <p class="text-muted">Total Size: {{ totalSize }}</p>
+{% endblock %}

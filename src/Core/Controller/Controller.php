@@ -32,9 +32,13 @@ abstract class Controller
         return $twig->getTwigEnvironment()->render($templateName, $data);
     }
 
-    public function getRequestParam(string $paramName)
+    public function getRequestParam(string $paramName, $default = null)
     {
-        return \trim($_GET[$paramName] ?? '');
+        if (!isset($_GET[$paramName])) {
+            return $default;
+        }
+
+        return \trim($_GET[$paramName]);
     }
 
     public function getFileRepository(): FileRepository
