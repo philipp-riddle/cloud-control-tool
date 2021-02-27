@@ -11,4 +11,11 @@ class DirectoryMetaRepository extends Repository
     {
         parent::__construct(DirectoryMeta::class, $mongoService);
     }
+
+    public function fetchByDirectory(string $directory): ?File
+    {
+       $result = $this->mongoService->getFilesCollection()->findOne(['directory' => $directory]);
+
+       return $this->__fact($result);
+    }
 }

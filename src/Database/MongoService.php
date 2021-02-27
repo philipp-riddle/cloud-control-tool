@@ -99,12 +99,12 @@ class MongoService
             return $value->getName();
         }
 
-        if (\method_exists($value, '__toString')) {
-            return $value->__toString();
-        }
-
         if (\is_string($value) || \is_numeric($value)) {
             return $value;
+        }
+
+        if (\method_exists($value, '__toString')) {
+            return $value->__toString();
         }
 
         throw new InvalidArgumentException(\sprintf('Can\'t convert given $value to string: %s', \var_export($value, true)));

@@ -26,6 +26,9 @@ class File extends Entity
 
     protected $indexedCounter = 1;
 
+    // '/' would be depth 1, '/Users/' would be 2, ...
+    protected $depth;
+
     public function setPath(string $path): self
     {
         $this->path = $path;
@@ -122,8 +125,25 @@ class File extends Entity
         return $this->path;
     }
 
+    public function setDepth(int $depth): self
+    {
+        $this->depth = $depth;
+
+        return $this;
+    }
+
+    public function getDepth(): ?int
+    {
+        return $this->depth;
+    }
+
     public function isDirectory(): bool
     {
         return 'directory' === $this->type;
+    }
+
+    public static function calculateDepth(string $directory): int
+    {
+        return \substr_count(\rtrim($directory, '/'), '/');
     }
 }

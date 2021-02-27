@@ -29,4 +29,52 @@ class FileRepository extends Repository
 
         return $this->__factArray($result);
     }
+
+    /**
+     * Gets all the files in the current directory (only one layer)
+     */
+    public function getFilesInDirectory(string $directory)
+    {
+        $result = $this->mongoService->getFilesCollection()->findOne([
+            'directory' => $directory,
+            // 'depth' => File::calculateDepth($directory),
+        ]);
+
+        return $this->__factArray($result);
+    }
+
+    public function getTotalIndexedFiles(): int
+    {
+        $result = $this->mongoService->getFilesCollection()->countDocuments([]);
+
+        return $result ?? 0;
+    }
+
+    public function getTotalSize(): int
+    {
+        $result = $this->mongoService->getFilesCollection()->aggregate([
+            ['$group' => 
+                [
+                    '_id' => null,
+                    'size' => ['$sum' => '$size'],
+                ],
+            ],
+        ]);
+
+        if (!$result) {
+            return 0;
+        }
+
+        return $this->mongoService->toArray($result)[0]['size'];
+    }
+
+    public function getTotalDirectories(): int
+    {
+        return $this->mongoService->getFilesCollection()->countDocuments(['type' => 'directory']) ?? 0;
+    }
+
+    public function getTotalFiles(): int
+    {
+        return $this->mongoService->getFilesCollection()->countDocuments(['type' => ['$ne' => 'directory']]) ?? 0;
+    }
 }

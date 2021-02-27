@@ -52,10 +52,10 @@ class Repository
         return $this->factory($result);
     }
 
-    protected function __factArray($result)
+    protected function __factArray($result): array
     {
         if (!$result) {
-            return null;
+            return [];
         }
  
         $result = $this->mongoService->toArray($result);

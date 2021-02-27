@@ -21,7 +21,7 @@ abstract class Entity
      */
     public function __serialize(): array
     {
-        $getters = $this->_getMethodsWithPrefix('get', ['getFieldNames']); // get getters
+        $getters = $this->_getMethodsWithPrefix('get'); // get getters
         $serialized = [
             'id' => $this->getIdentifier(),
         ];
@@ -45,12 +45,13 @@ abstract class Entity
     public function __deserialize(array $contents): void
     {
         $setters = $this->_getMethodsWithPrefix('set'); // get setters
+        $reflectionClass = new ReflectionClass(\get_class($this));
 
         foreach ($setters as $setter) {
             $fieldName = $this->_getFieldNameFromMethod($setter);
 
             if (isset($contents[$fieldName])) {
-                $type = (new ReflectionClass(\get_class($this)))->getMethod($setter)->getParameters()[0]->getType()->getName();
+                $type = $reflectionClass->getMethod($setter)->getParameters()[0]->getType()->getName();
 
                 if ('DateTime' === $type) {
                     $fieldContents = new DateTime($contents[$fieldName]); // convert it to a datetime first again
@@ -61,7 +62,12 @@ abstract class Entity
                 $this->$setter($fieldContents);
             } 
             else {
-                throw new EntityMethodMissingException(\sprintf('Data for setter "%s" is missing in contents for Entity "%s. Available: %s"', $fieldName, \get_class($this), \implode(\array_keys($contents))));
+                $getter = 'get'.\substr($setter, 3);
+
+                // if the getter allows the method to return NULL => this param is optional
+                if (!$reflectionClass->getMethod($getter)->getReturnType()->allowsNull()) {
+                    throw new EntityMethodMissingException(\sprintf('Data for setter "%s" is missing in contents for Entity "%s. Available: %s"', $fieldName, \get_class($this), \implode(\array_keys($contents))));
+                }
             }
         }
 
@@ -80,7 +86,7 @@ abstract class Entity
         return $fieldNames;
     }
 
-    private function _getMethodsWithPrefix(string $prefix, array $ignore =[]): array
+    private function _getMethodsWithPrefix(string $prefix, array $ignore = ['getFieldNames', 'getIdentifier']): array
     {
         $classMethods = \get_class_methods(\get_class($this));
         $methods = [];

@@ -7,13 +7,13 @@ use Phiil\CloudTools\Database\MongoService;
 
 class CloudApp
 {
-    private $mongoService;
-    private $crawler;
+    protected $mongoService;
+    protected $crawler;
 
     public function __construct()
     {
         $this->mongoService = new MongoService();
-        $this->crawler = new FileCrawler($this);
+        $this->crawler = new FileCrawler($this); 
     }
 
     /**

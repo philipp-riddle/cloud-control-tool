@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Cloud Tools</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+
+    {% block stylesheets %}
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha2/css/bootstrap.min.css" integrity="sha384-DhY6onE6f3zzKbjUPRc2hOzGAdEf4/Dz+WJwBvEYL/lkkIsI3ihufq9hk9K4lVoK" crossorigin="anonymous">
+        <style>
+            .row {
+                width: 100%;
+            }
+            .bg-navbar {
+                background-color: #A7F3D0;
+            }
+        </style>
+    {% endblock %}
+</head>
+<body>
+    {% block navbar %}
+        {% include '_theme/navbar.html.twig' %}
+    {% endblock %}
+    <div class="container">
+        
+        <div class="mt-3">
+            {% block body %}
+            {% endblock %}
+        </div>
+    </div>
+</body>
+<footer>
+    {% block scripts %}
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha2/js/bootstrap.min.js" integrity="sha384-5h4UG+6GOuV9qXh6HqOLwZMY4mnLPraeTrjT5v07o347pj6IkfuoASuGBhfDsp3d" crossorigin="anonymous"></script>
+    {% endblock %}
+</footer>
+</html> 

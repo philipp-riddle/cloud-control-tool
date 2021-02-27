@@ -3,8 +3,11 @@
 namespace Phiil\CloudTools\Crawler;
 
 use DateTime;
+use Error;
+use Exception;
 use Phiil\CloudTools\Crawler\FileCrawler;
 use Phiil\CloudTools\Database\Entity\Directory;
+use Phiil\CloudTools\Database\Entity\File;
 use Phiil\CloudTools\Database\Entity\SimpleFile;
 use Phiil\CloudTools\Database\Repository\FileRepository;
 
@@ -15,10 +18,13 @@ class FileDirectoryCrawler
     private $fileCrawler;
     private $repository;
 
+    private $indexedFilesCount = 0;
+
     public function __construct(FileCrawler $fileCrawler)
     {
         $this->fileCrawler = $fileCrawler;
         $this->repository = new FileRepository($this->fileCrawler->getApp()->getMongoService()); // connection to the database
+        $this->indexedFilesCount = 0;
     }
 
     public function crawlDirectory(string $directory): array
@@ -39,7 +45,21 @@ class FileDirectoryCrawler
      */
     private function _crawlDirectory(string $directory, array &$container, int $depth = 1): array
     {
-        $scanned = \array_diff(\scandir($directory), ['..', '.']); // to get rid of the dots
+        if (!\is_writable($directory)) {
+            return [];
+        }
+
+        try {
+            $scanDir = @scandir($directory); // suppress warnings
+
+            if (false === $scanDir) {
+                return [];
+            }
+
+            $scanned = \array_diff($scanDir, ['..', '.']); // to get rid of the dots
+        } catch (Error | Exception $err) {
+            return []; // e.g. no access to the directory
+        }
 
         foreach ($scanned as $file) {
             $filePath = $directory.'/'.$file;
@@ -63,10 +83,12 @@ class FileDirectoryCrawler
                 $entityFile->setPath($filePath);
                 $entityFile->setDirectory(\dirname($file));
                 $entityFile->setFirstIndexedAt(new DateTime());
+                $entityFile->setDepth(File::calculateDepth($directory));
             }
 
             $entityFile->setLastIndexedAt(new DateTime());
             $this->repository->flush($entityFile);
+            $this->_logIndexedFile($entityFile);
 
             if ($entityFile->isDirectory()) {
                 $container['dirs'] = $entityFile;
@@ -80,5 +102,14 @@ class FileDirectoryCrawler
         }
 
         return $container;
+    }
+
+    protected function _logIndexedFile(File $file)
+    {
+        $this->indexedFilesCount++;
+
+        if (0 === $this->indexedFilesCount % 500) {
+            printf('> Indexed %s files.'.PHP_EOL, $this->indexedFilesCount);
+        }
     }
 }

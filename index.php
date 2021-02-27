@@ -2,10 +2,7 @@
 
 require 'bin/bootstrap.php';
 
-$app = new \Phiil\CloudTools\Core\CloudApp();
+$app = new \Phiil\CloudTools\Core\CloudWebApp();
 $controllerName = \htmlentities($_GET['controller'] ?? 'index');
 
-$resolver = new \Phiil\CloudTools\Controller\ControllerResolver($app);
-$resolver->load();
-
-echo $resolver->resolve($controllerName);
+echo $app->getResolver()->resolve($controllerName);

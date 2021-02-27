@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <h1>Dashboard</h1>
+
+    <div class="row mt-5">
+        <div class="col-sm">
+            <p class="h2 mb-0">{{ totalIndexed }}</p>
+            <span class="text-muted">Indexed</span>
+        </div>
+        <div class="col-sm">
+            <p class="h2 mb-0">{{ totalSize }}</p>
+            <span class="text-muted">Total Size</span>
+        </div>
+        <div class="col-sm">
+            <p class="h2 mb-0">{{ totalDirectories }}</p>
+            <span class="text-muted">Directories</span>
+        </div>
+        <div class="col-sm">
+            <p class="h2 mb-0">{{ totalFiles }}</p>
+            <span class="text-muted">Files</span>
+        </div>
+    </div>
+
+{% endblock %}
