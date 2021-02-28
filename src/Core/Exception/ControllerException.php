@@ -1,6 +1,6 @@
 <?php
 
-namespace Phiil\CloudTools\Exception;
+namespace Phiil\CloudTools\Core\Exception;
 
 use Exception;
 

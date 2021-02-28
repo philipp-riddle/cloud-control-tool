@@ -1,6 +1,6 @@
 <?php
 
-namespace Phiil\CloudTools\Database;
+namespace Phiil\CloudTools\Core\Database;
 
 use DateTime;
 use DateTimeZone;
@@ -31,9 +31,14 @@ class MongoService
         return $this->client->selectDatabase('cloud_tools'); // @todo config
     }
 
+    public function getCollection(string $collectionName): Collection
+    {
+        return $this->getDatabase()->selectCollection($collectionName);
+    }
+
     public function getFilesCollection(): Collection
     {
-        return $this->getDatabase()->selectCollection('files'); // @todo config
+        return $this->getCollection('files'); // @todo config
     }
 
     /**

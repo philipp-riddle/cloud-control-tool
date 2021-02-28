@@ -1,10 +1,10 @@
 <?php
 
-namespace Phiil\CloudTools\Database\Entity;
+namespace Phiil\CloudTools\Core\Database;
 
 use DateTime;
-use Phiil\CloudTools\Database\MongoService;
-use Phiil\CloudTools\Exception\EntityMethodMissingException;
+use Phiil\CloudTools\Core\Database\MongoService;
+use Phiil\CloudTools\Core\Exception\EntityMethodMissingException;
 use ReflectionClass;
 
 abstract class Entity
@@ -72,6 +72,16 @@ abstract class Entity
         }
 
         $this->initialized = true;
+    }
+
+    /**
+     * Returns the simple name of this entity (no qualified namespace name)
+     * 
+     * @return string simple name of the entity, e.g. 'File'
+     */
+    public static function __name(): string
+    {
+        return (new ReflectionClass(\get_class(new static())))->getShortName();
     }
 
     public function getFieldNames(): array

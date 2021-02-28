@@ -2,8 +2,9 @@
 
 namespace Phiil\CloudTools\Database\Repository;
 
+use Phiil\CloudTools\Core\Database\Repository;
 use Phiil\CloudTools\Database\Entity\File;
-use Phiil\CloudTools\Database\MongoService;
+use Phiil\CloudTools\Core\Database\MongoService;
 
 class FileRepository extends Repository
 {
@@ -19,18 +20,23 @@ class FileRepository extends Repository
        return $this->__fact($result);
     }
 
-    public function fetchAllByDirectoryPrefix(string $directory, ?string $type = null): array
+    public function fetchAllByDirectoryPrefix(string $directory, ?array $types = [], int $limit = 100): array
     {
         $matchQuery = ['path' => ['$regex' => $directory]];
 
-        if (null !== $type) {
-            $matchQuery['type'] = $type;
+        if (!empty($types)) {
+            $matchQuery['type'] = ['$in' => $types];
         }
 
-        $result = $this->mongoService->getFilesCollection()->aggregate([
+        $pipeline = [
             ['$match' => $matchQuery],
-            ['$limit' => 100],
-        ]);
+        ];
+
+        if (-1 !== $limit) {
+            $pipeline[] = ['$limit' => $limit];
+        }
+
+        $result = $this->mongoService->getFilesCollection()->aggregate($pipeline);
 
         return $this->__factArray($result);
     }

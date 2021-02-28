@@ -5,15 +5,15 @@ namespace Phiil\CloudTools\Core\Controller;
 use Phiil\CloudTools\Controller\DirectoryController;
 use Phiil\CloudTools\Controller\HomeController;
 use Phiil\CloudTools\Controller\SearchController;
-use Phiil\CloudTools\Core\CloudWebApp;
-use Phiil\CloudTools\Exception\ControllerMethodMissingException;
+use Phiil\CloudTools\Core\WebApp;
+use Phiil\CloudTools\Core\Exception\ControllerMethodMissingException;
 
 class ControllerResolver
 {
     private $app;
     private $controllers;
 
-    public function __construct(CloudWebApp $app)
+    public function __construct(WebApp $app)
     {
         $this->app = $app;
         $this->controllers = [];
@@ -94,7 +94,7 @@ class ControllerResolver
         return null;
     }
 
-    public function getApp(): CloudWebApp
+    public function getApp(): WebApp
     {
         return $this->app;
     }

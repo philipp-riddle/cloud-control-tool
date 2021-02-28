@@ -1,11 +1,11 @@
 <?php
 
-namespace Phiil\CloudTools\Database\Repository;
+namespace Phiil\CloudTools\Core\Database;
 
-use Phiil\CloudTools\Database\Entity\Entity;
-use Phiil\CloudTools\Database\Entity\File;
-use Phiil\CloudTools\Database\MongoService;
-use Phiil\CloudTools\Exception\EntityParentClassMissingException;
+use MongoDB\Collection;
+use Phiil\CloudTools\Core\Database\Entity;
+use Phiil\CloudTools\Core\Database\MongoService;
+use Phiil\CloudTools\Core\Exception\EntityParentClassMissingException;
 
 class Repository
 {
@@ -30,7 +30,7 @@ class Repository
         $entity = new $entityClass();
 
         if (!($entity instanceof Entity)) {
-            throw new EntityParentClassMissingException(\sprintf('Entity %s is not a chid class of %s.', self::class, Entity::class));
+            throw new EntityParentClassMissingException(\sprintf('Entity %s is not a chid class of %s.', \get_class($entity), Entity::class));
         }
 
         $entity->__deserialize($data);
@@ -68,17 +68,11 @@ class Repository
         return $entities;
     }
 
-    public function insert(Entity $entity)
-    {
-        $contents = $entity->__serialize();
-        $this->mongoService->getFilesCollection()->insertOne($contents);
-    }
-
     /**
      * Flushes an entity to the database (apply all changes).
      * If the entity does not already exist it gets created. 
      * 
-     * @return int status code. Either STATUS_UPDATED or STATUS_CREATED
+     * @return int status code, either STATUS_UPDATED or STATUS_CREATED
      */
     public function flush(Entity $entity): int
     {
@@ -93,11 +87,24 @@ class Repository
         }
     }
 
+    public function insert(Entity $entity)
+    {
+        $contents = $entity->__serialize();
+        $this->getCollection()->insertOne($contents);
+    }
+
     private function _update(Entity $entity)
     {   
-        $this->mongoService->getFilesCollection()->updateOne(
+        $this->getCollection()->updateOne(
             ['id' => $entity->getIdentifier()],
             ['$set' => $entity->__serialize()]
         );
+    }
+
+    public function getCollection(): Collection
+    {
+        $entityClass = $this->entityClass;
+
+        return $this->mongoService->getCollection($entityClass::__name());
     }
 }

@@ -3,7 +3,7 @@
 namespace Phiil\CloudTools\Core\Controller;
 
 use Phiil\CloudTools\Database\Repository\FileRepository;
-use Phiil\CloudTools\Exception\ControllerTemplateNotFoundException;
+use Phiil\CloudTools\Core\Exception\ControllerTemplateNotFoundException;
 
 abstract class Controller
 {

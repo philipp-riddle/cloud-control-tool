@@ -11,7 +11,7 @@ class SearchController extends Controller
     {
         $search = $this->getRequestParam('search');
         $type = $this->getRequestParam('type');
-        $files = $this->getFileRepository()->fetchAllByDirectoryPrefix($search, $type);
+        $files = $this->getFileRepository()->fetchAllByDirectoryPrefix($search, [$type]);
 
         return $this->render('search/index.html.twig', [
             'search' => $search,

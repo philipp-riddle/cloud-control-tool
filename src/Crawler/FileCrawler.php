@@ -2,14 +2,14 @@
 
 namespace Phiil\CloudTools\Crawler;
 
-use Phiil\CloudTools\Core\CloudApp;
+use Phiil\CloudTools\Core\App;
 use Phiil\CloudTools\Crawler\FileDirectoryCrawler;
 
 class FileCrawler
 {
     private $app;
 
-    public function __construct(CloudApp $app)
+    public function __construct(App $app)
     {
         $this->app = $app;
     }
@@ -21,7 +21,7 @@ class FileCrawler
         return $directoryCrawler->crawlDirectory($startDirectoryPath);
     }
 
-    public function getApp(): CloudApp
+    public function getApp(): App
     {
         return $this->app;
     }

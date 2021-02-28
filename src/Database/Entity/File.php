@@ -3,6 +3,7 @@
 namespace Phiil\CloudTools\Database\Entity;
 
 use DateTime;
+use Phiil\CloudTools\Core\Database\Entity;
 
 class File extends Entity
 {

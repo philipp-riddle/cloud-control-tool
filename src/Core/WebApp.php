@@ -5,9 +5,9 @@ namespace Phiil\CloudTools\Core;
 use Phiil\CloudTools\Core\Controller\ControllerResolver;
 
 /**
- * This child of CloudApp gets used for any Web actions and makes it easier to handle those requests.
+ * This child of App gets used for any Web actions and makes it easier to handle those requests.
  */
-class CloudWebApp extends CloudApp
+class WebApp extends App
 {
     protected $resolver; // ControllerResolver
 

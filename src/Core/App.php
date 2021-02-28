@@ -2,18 +2,15 @@
 
 namespace Phiil\CloudTools\Core;
 
-use Phiil\CloudTools\Crawler\FileCrawler;
-use Phiil\CloudTools\Database\MongoService;
+use Phiil\CloudTools\Core\Database\MongoService;
 
-class CloudApp
+class App
 {
     protected $mongoService;
-    protected $crawler;
 
     public function __construct()
     {
         $this->mongoService = new MongoService();
-        $this->crawler = new FileCrawler($this); 
     }
 
     /**
@@ -22,10 +19,5 @@ class CloudApp
     public function getMongoService(): MongoService
     {
         return $this->mongoService;
-    }
-
-    public function getCrawler(): FileCrawler
-    {
-        return $this->crawler;
     }
 }
