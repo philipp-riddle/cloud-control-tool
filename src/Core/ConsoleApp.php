@@ -17,7 +17,7 @@ class ConsoleApp extends App
     {
         parent::__construct();
 
-        $this->crawler = new FileCrawler($this); 
+        $this->crawler = new FileCrawler($this);
         $this->resolver = new CommandResolver($this);
         $this->resolver->load();
     }

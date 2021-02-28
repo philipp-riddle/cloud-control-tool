@@ -15,9 +15,9 @@ class FileRepository extends Repository
 
     public function fetchByPath(string $filePath): ?File
     {
-       $result = $this->mongoService->getFilesCollection()->findOne(['path' => $filePath]);
+        $result = $this->mongoService->getFilesCollection()->findOne(['path' => $filePath]);
 
-       return $this->__fact($result);
+        return $this->__fact($result);
     }
 
     public function fetchAllByDirectoryPrefix(string $directory, ?array $types = [], int $limit = 100): array
@@ -50,7 +50,7 @@ class FileRepository extends Repository
                     'count' => ['$sum' => 1],
                 ],
             ],
-            ['$sort' => 
+            ['$sort' =>
                 [
                     'count' => -1,
                 ],
@@ -94,7 +94,7 @@ class FileRepository extends Repository
     public function getTotalSize(): int
     {
         $result = $this->mongoService->getFilesCollection()->aggregate([
-            ['$group' => 
+            ['$group' =>
                 [
                     '_id' => null,
                     'size' => ['$sum' => '$size'],

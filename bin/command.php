@@ -13,8 +13,17 @@ if (null === $commandName) { // print out available commands to help the user
         echo '  > '.$commandName.PHP_EOL;
     }
 
-    return 0;
+    return 1; // quits the script with exit code 1
 } 
 
 $args = \array_splice($argv, 2);
-$app->getResolver()->resolve($commandName, $args)->execute();
+
+try {
+    $app->getResolver()->resolve($commandName, $args)->execute();
+} catch (\Phiil\CloudTools\Core\Exception\CommandException $ex) {
+    echo $ex->getMessage().PHP_EOL;
+
+    return 1;
+}
+
+return 0;

@@ -14,8 +14,8 @@ abstract class Controller
         $this->resolver = $resolver;
     }
 
-    public abstract function getRoutes(): array;
-    public abstract function authenticate(): bool;
+    abstract public function getRoutes(): array;
+    abstract public function authenticate(): bool;
 
     public function render(string $templateName, array $data): string
     {

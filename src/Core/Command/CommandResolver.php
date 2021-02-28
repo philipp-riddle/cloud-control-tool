@@ -2,6 +2,7 @@
 
 namespace Phiil\CloudTools\Core\Command;
 
+use Phiil\CloudTools\Command\CrawlDirectoryCommand;
 use Phiil\CloudTools\Command\DeleteTypeCommand;
 use Phiil\CloudTools\Core\ConsoleApp;
 use Phiil\CloudTools\Core\Exception\CommandNotFoundException;
@@ -20,6 +21,7 @@ class CommandResolver
     public function load()
     {
         $this->registerCommand(new DeleteTypeCommand($this));
+        $this->registerCommand(new CrawlDirectoryCommand($this));
     }
 
     public function registerCommand(Command $command)

@@ -19,7 +19,7 @@ class ControllerResolution
 
     /**
      * Calls the controller with the saved method.
-     * 
+     *
      * @return mixed whatever the controller returns
      */
     public function execute()

@@ -70,8 +70,8 @@ class Repository
 
     /**
      * Flushes an entity to the database (apply all changes).
-     * If the entity does not already exist it gets created. 
-     * 
+     * If the entity does not already exist it gets created.
+     *
      * @return int status code, either STATUS_UPDATED or STATUS_CREATED
      */
     public function flush(Entity $entity): int
@@ -94,7 +94,7 @@ class Repository
     }
 
     private function _update(Entity $entity)
-    {   
+    {
         $this->getCollection()->updateOne(
             ['id' => $entity->getIdentifier()],
             ['$set' => $entity->__serialize()]

@@ -12,11 +12,11 @@ abstract class Entity
     protected $initialized = false;
     protected $identifier;
 
-    abstract function getIdentifier(): string;
+    abstract public function getIdentifier(): string;
 
     /**
      * Converts this entity to an array
-     * 
+     *
      * @return array the serialized entity
      */
     public function __serialize(): array
@@ -60,8 +60,7 @@ abstract class Entity
                 }
 
                 $this->$setter($fieldContents);
-            } 
-            else {
+            } else {
                 $getter = 'get'.\substr($setter, 3);
 
                 // if the getter allows the method to return NULL => this param is optional
@@ -76,7 +75,7 @@ abstract class Entity
 
     /**
      * Returns the simple name of this entity (no qualified namespace name)
-     * 
+     *
      * @return string simple name of the entity, e.g. 'File'
      */
     public static function __name(): string

@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace Phiil\CloudTools\Crawler;
 
@@ -37,10 +37,10 @@ class FileDirectoryCrawler
 
     /**
      * Crawls a directory.
-     * 
+     *
      * @param string $directory the directory that should be crawler
      * @param string $container the container and array which gets filled with file names
-     * 
+     *
      * @param array returns a container with all dirs and files found in the current subdirectory
      */
     private function _crawlDirectory(string $directory, array &$container, int $depth = 1): array
@@ -71,7 +71,7 @@ class FileDirectoryCrawler
                 if (\is_dir($filePath)) {
                     $entityFile = new Directory();
                     $entityFile->setSize(0);
-                } else if (\is_file($filePath)) {
+                } elseif (\is_file($filePath)) {
                     $entityFile = new SimpleFile();
                     $entityFile->setFileName(\basename($file));
                     $entityFile->setType(\pathinfo($file, PATHINFO_EXTENSION));

@@ -16,8 +16,8 @@ class DirectoryMetaRepository extends Repository
 
     public function fetchByDirectory(string $directory): ?File
     {
-       $result = $this->mongoService->getFilesCollection()->findOne(['directory' => $directory]);
+        $result = $this->mongoService->getFilesCollection()->findOne(['directory' => $directory]);
 
-       return $this->__fact($result);
+        return $this->__fact($result);
     }
 }

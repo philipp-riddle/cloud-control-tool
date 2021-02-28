@@ -6,6 +6,5 @@ class FileAnalyzeCrawler
 {
     public function analyze(array $files)
     {
-
     }
 }

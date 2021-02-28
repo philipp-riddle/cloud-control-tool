@@ -13,7 +13,8 @@ abstract class Command
 
     protected $style;
     protected $success;
-    protected $startedAt, $endedAt;
+    protected $startedAt;
+    protected $endedAt;
     protected $meta;
 
     public function __construct(string $name, CommandResolver $resolver)
@@ -37,7 +38,7 @@ abstract class Command
     }
 
     /**
-     * This function gets called right after the execution of the command got executed
+     * This function gets called right after the execution of the command.
      */
     public function postExecute(CommandArgumentResolution $resolution)
     {

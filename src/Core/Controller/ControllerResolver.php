@@ -33,9 +33,9 @@ class ControllerResolver
 
     /**
      * Resolves a resolution to a controller action.
-     * 
+     *
      * @param string $controllerName the controller action name that should be searched for
-     * 
+     *
      * @return mixed\null returns the contents of the called method, NULL if the method is not accessible
      */
     public function resolve(string $controllerName)
@@ -52,11 +52,11 @@ class ControllerResolver
     /**
      * Resolves a $controllerName to a specific controller + method.
      * This result gets encapsulated inside a ControllerResolution object.
-     * 
+     *
      * @param string $controllerName the controller name that should be looked for
-     * 
+     *
      * @return ControllerResolution\null ControllerResolution if the route could be found, null if not
-     * 
+     *
      * @throws ControllerMethodMissingException if a controller tries to get called which has not the route method implemented
      */
     public function resolveToControllerResolution(string $controllerName): ?ControllerResolution
@@ -78,9 +78,9 @@ class ControllerResolver
 
     /**
      * Generates an URL for a route name.
-     * 
+     *
      * @param string $routeName the route that the URL should be generated for
-     * 
+     *
      * @param string|null returns the path if the route could be found, NULL otherwise
      */
     public function generateURL(string $routeName): ?string
